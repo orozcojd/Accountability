@@ -223,6 +223,99 @@ Extracted promises:"""
             logger.error("promise_extraction_error", error=str(e))
             raise AIError(f"Failed to extract promises: {str(e)}") from e
 
+    async def detect_promise_contradiction(
+        self,
+        promise_text: str,
+        vote_title: str,
+        vote_value: str,
+        bill_summary: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """
+        Detect if a vote contradicts a campaign promise.
+
+        Args:
+            promise_text: Campaign promise text
+            vote_title: Title of the bill
+            vote_value: How they voted (yes/no)
+            bill_summary: Optional bill summary
+
+        Returns:
+            Dict with contradiction analysis
+        """
+        bill_info = f"Bill: {vote_title}"
+        if bill_summary:
+            bill_info += f"\nSummary: {bill_summary}"
+
+        user_prompt = f"""Analyze if this vote contradicts the campaign promise.
+
+Campaign Promise: "{promise_text}"
+
+Vote Information:
+{bill_info}
+Voted: {vote_value.upper()}
+
+Does this vote contradict the promise? Answer with:
+1. "CONTRADICTS" if the vote clearly goes against the promise
+2. "SUPPORTS" if the vote aligns with the promise
+3. "NEUTRAL" if unrelated or unclear
+
+Then provide a one-sentence explanation.
+
+Format:
+VERDICT: [CONTRADICTS/SUPPORTS/NEUTRAL]
+EXPLANATION: [one sentence]"""
+
+        try:
+            if self.provider == "anthropic":
+                response = await self.client.messages.create(
+                    model=self.model,
+                    max_tokens=256,
+                    temperature=0.2,
+                    system="You are an objective political analyst detecting contradictions between promises and actions.",
+                    messages=[{"role": "user", "content": user_prompt}],
+                )
+                content = response.content[0].text
+
+            else:  # openai
+                response = await openai.ChatCompletion.acreate(
+                    model=self.model,
+                    messages=[
+                        {"role": "system", "content": "You are an objective political analyst detecting contradictions between promises and actions."},
+                        {"role": "user", "content": user_prompt},
+                    ],
+                    max_tokens=256,
+                    temperature=0.2,
+                )
+                content = response.choices[0].message.content
+
+            # Parse response
+            lines = content.strip().split("\n")
+            verdict = "NEUTRAL"
+            explanation = ""
+
+            for line in lines:
+                if line.startswith("VERDICT:"):
+                    verdict = line.split(":", 1)[1].strip()
+                elif line.startswith("EXPLANATION:"):
+                    explanation = line.split(":", 1)[1].strip()
+
+            return {
+                "contradicts": verdict == "CONTRADICTS",
+                "supports": verdict == "SUPPORTS",
+                "verdict": verdict.lower(),
+                "explanation": explanation
+            }
+
+        except Exception as e:
+            logger.error("contradiction_detection_error", error=str(e))
+            # Return neutral on error
+            return {
+                "contradicts": False,
+                "supports": False,
+                "verdict": "neutral",
+                "explanation": "Unable to analyze"
+            }
+
     async def _generate_summary(self, user_prompt: str) -> str:
         """
         Generate a summary using the configured AI provider.

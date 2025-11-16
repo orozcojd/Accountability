@@ -16,6 +16,9 @@ class Vote(BaseModel):
     vote: str  # "yes", "no", "not-voting", "present"
     billSummary: Optional[str] = None
     source: str = "propublica"
+    categories: List[str] = []  # Bill categories (healthcare, economy, etc.)
+    industry_impact: List[str] = []  # Industries impacted by this bill
+    district_impact: Optional[str] = None  # Impact on representative's district
 
 
 class VotingRecord(BaseModel):

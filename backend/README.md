@@ -11,6 +11,13 @@ FastAPI backend for the Accountability Platform, providing data scraping, AI sum
 - **Job Management**: Background job processing for batch updates
 - **ISR Integration**: Triggers Next.js Incremental Static Regeneration after data updates
 
+### Accountability Features (NEW)
+
+- **Influence Analysis**: Track correlation between campaign donations and voting patterns
+- **Promise Tracker**: Compare campaign promises to actual voting record (kept vs. broken)
+- **Red Flags System**: Automatic detection of problematic patterns (broken promises, suspicious timing, etc.)
+- **Accountability Score**: Comprehensive score combining promise keeping, transparency, attendance, and donor independence
+
 ## Architecture
 
 ```
@@ -113,12 +120,21 @@ Once running, visit:
 
 ### Public Endpoints
 
+#### Basic Official Data
+
 - `GET /api/v1/officials` - List all officials (with filters)
 - `GET /api/v1/officials/{official_id}` - Get official profile
 - `GET /api/v1/officials/{official_id}/votes` - Get voting records
 - `GET /api/v1/officials/{official_id}/donations` - Get campaign finance
 - `GET /api/v1/officials/{official_id}/stocks` - Get stock trades
 - `GET /api/v1/officials/{official_id}/promises` - Get promises
+
+#### Accountability Features (NEW)
+
+- `GET /api/v1/officials/{official_id}/influence-analysis` - Get influence correlation analysis ("Follow the Money")
+- `GET /api/v1/officials/{official_id}/promise-tracker` - Get promise tracking (kept vs. broken promises)
+- `GET /api/v1/officials/{official_id}/red-flags` - Get detected red flags (automatic problem detection)
+- `GET /api/v1/officials/{official_id}/accountability-score` - Get comprehensive accountability score
 
 ### Admin Endpoints (Require Authentication)
 
@@ -169,7 +185,26 @@ curl -X POST http://localhost:8000/api/v1/admin/jobs/update-all \
 ### Get Official Data
 
 ```bash
+# Basic profile
 curl http://localhost:8000/api/v1/officials/ca-12
+
+# Voting record
+curl http://localhost:8000/api/v1/officials/ca-12/votes?year=2024
+
+# Campaign finance
+curl http://localhost:8000/api/v1/officials/ca-12/donations?cycle=2024
+
+# Influence analysis (NEW)
+curl http://localhost:8000/api/v1/officials/ca-12/influence-analysis
+
+# Promise tracker (NEW)
+curl http://localhost:8000/api/v1/officials/ca-12/promise-tracker
+
+# Red flags (NEW)
+curl http://localhost:8000/api/v1/officials/ca-12/red-flags
+
+# Accountability score (NEW)
+curl http://localhost:8000/api/v1/officials/ca-12/accountability-score
 ```
 
 ## Data Scraping
@@ -325,6 +360,190 @@ Optimizations:
 - Retry logic prevents cascading failures
 - CloudFront CDN for S3 content
 - ISR on frontend reduces API load
+
+## Accountability Feature Details
+
+### 1. Influence Analysis (`/influence-analysis`)
+
+Tracks "Follow the Money" - correlation between donations and voting patterns.
+
+**Response includes:**
+- Overall influence score (0-100, higher = more influenced by donors)
+- Top industries with donation amounts and voting alignment percentages
+- Suspicious timing red flags (donation → favorable vote within 30 days)
+- Industry-specific examples of related votes
+
+**Algorithm:**
+```
+influence_score = (
+    donation_concentration * 0.3 +
+    voting_alignment_with_donors * 0.4 +
+    suspicious_timing_frequency * 0.3
+) * 100
+```
+
+**Example response:**
+```json
+{
+  "official_id": "ca-12",
+  "influence_score": 87,
+  "top_industries": [
+    {
+      "industry": "Pharmaceuticals",
+      "total_donations": 150000,
+      "voting_alignment": 92,
+      "suspicious_votes": 8
+    }
+  ],
+  "red_flags": [
+    {
+      "type": "suspicious_timing",
+      "days_between": 7,
+      "donation_amount": 25000
+    }
+  ]
+}
+```
+
+### 2. Promise Tracker (`/promise-tracker`)
+
+Compares campaign promises to actual voting record.
+
+**Response includes:**
+- Summary with total promises and breakdown (kept/broken/in-progress/not-addressed)
+- Promise keeping score (percentage kept)
+- Detailed list of each promise with status and evidence
+- Times voted against each promise
+
+**Algorithm:**
+```
+promise_keeping_score = (kept / total_promises) * 100
+```
+
+**Status determination:**
+- **Broken**: 70%+ contradicting votes
+- **In Progress**: 40-70% contradicting votes
+- **Kept**: 3+ supporting votes and <40% contradicting
+- **Not Addressed**: No related votes found
+
+**Example response:**
+```json
+{
+  "official_id": "ca-12",
+  "summary": {
+    "total_promises": 45,
+    "kept": 10,
+    "broken": 30,
+    "promise_keeping_score": 23
+  },
+  "promises": [
+    {
+      "promise_text": "I'll fight for healthcare access",
+      "status": "broken",
+      "times_voted_against": 12,
+      "evidence": [...]
+    }
+  ]
+}
+```
+
+### 3. Red Flags System (`/red-flags`)
+
+Automatic detection of problematic patterns.
+
+**Detects:**
+- Broken promises (promise → opposite votes)
+- Suspicious donation timing (donation → favorable vote < 30 days)
+- Excessive missed votes (> 2x congressional average)
+- Low transparency/accessibility
+- Stock trading conflicts
+- High donor concentration
+
+**Severity levels:**
+- **Critical**: Immediate accountability concerns
+- **High**: Significant issues
+- **Medium**: Notable patterns
+- **Low**: Minor concerns
+
+**Example response:**
+```json
+{
+  "official_id": "ca-12",
+  "total_red_flags": 15,
+  "by_severity": {
+    "critical": 3,
+    "high": 5
+  },
+  "flags": [
+    {
+      "type": "broken_promise",
+      "severity": "high",
+      "title": "Voted against campaign promise 12 times",
+      "evidence_count": 12
+    }
+  ]
+}
+```
+
+### 4. Accountability Score (`/accountability-score`)
+
+Comprehensive score combining multiple accountability factors.
+
+**Components (weighted):**
+- Promise keeping (40%)
+- Transparency (20%)
+- Constituent alignment (20%)
+- Attendance (10%)
+- Donor independence (10%)
+
+**Algorithm:**
+```
+accountability_score = (
+    promise_keeping_score * 0.40 +
+    transparency_score * 0.20 +
+    constituent_alignment_score * 0.20 +
+    attendance_score * 0.10 +
+    donor_independence_score * 0.10
+)
+```
+
+**Grading scale:**
+- A: 90-100
+- B: 80-89
+- C: 70-79
+- D: 60-69
+- F: 0-59
+
+**Example response:**
+```json
+{
+  "official_id": "ca-12",
+  "overall_score": 34,
+  "grade": "F",
+  "components": {
+    "promise_keeping": {
+      "score": 23,
+      "weight": 40,
+      "weighted_contribution": 9.2
+    },
+    "transparency": {
+      "score": 25,
+      "weight": 20
+    },
+    "attendance": {
+      "score": 65,
+      "weight": 10,
+      "missed_votes_pct": 34
+    }
+  },
+  "trend": "declining",
+  "peer_comparison": {
+    "average_score": 62,
+    "rank": 142,
+    "total_peers": 150
+  }
+}
+```
 
 ## Troubleshooting
 

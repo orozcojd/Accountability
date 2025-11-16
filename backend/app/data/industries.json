@@ -1,0 +1,183 @@
+{
+  "industries": {
+    "pharmaceuticals": {
+      "name": "Pharmaceuticals & Health Products",
+      "keywords": ["pharma", "pharmaceutical", "drug", "health products", "medicine", "biotech"],
+      "related_keywords": ["prescription", "medicare", "medicaid", "fda", "drug pricing"]
+    },
+    "oil_gas": {
+      "name": "Oil & Gas",
+      "keywords": ["oil", "gas", "petroleum", "energy", "fossil fuel", "exxon", "chevron", "bp"],
+      "related_keywords": ["drilling", "pipeline", "fracking", "carbon", "climate"]
+    },
+    "tech": {
+      "name": "Technology & Internet",
+      "keywords": ["tech", "technology", "software", "internet", "google", "facebook", "amazon", "microsoft", "apple"],
+      "related_keywords": ["data privacy", "antitrust", "net neutrality", "encryption"]
+    },
+    "finance": {
+      "name": "Finance, Insurance & Real Estate",
+      "keywords": ["bank", "finance", "insurance", "real estate", "wall street", "goldman", "jpmorgan"],
+      "related_keywords": ["dodd-frank", "financial regulation", "securities", "mortgage"]
+    },
+    "defense": {
+      "name": "Defense & Aerospace",
+      "keywords": ["defense", "aerospace", "military", "lockheed", "boeing", "raytheon", "northrop"],
+      "related_keywords": ["pentagon", "contract", "weapons", "aircraft"]
+    },
+    "healthcare": {
+      "name": "Healthcare Services",
+      "keywords": ["hospital", "healthcare", "medical", "health insurance", "hmo", "united health"],
+      "related_keywords": ["affordable care act", "obamacare", "medicaid expansion"]
+    },
+    "agriculture": {
+      "name": "Agriculture & Food",
+      "keywords": ["agriculture", "farming", "food", "agribusiness", "monsanto", "crop"],
+      "related_keywords": ["farm bill", "subsidies", "gmo", "pesticide"]
+    },
+    "telecom": {
+      "name": "Telecommunications",
+      "keywords": ["telecom", "telecommunications", "wireless", "att", "verizon", "comcast", "spectrum"],
+      "related_keywords": ["5g", "broadband", "fcc", "net neutrality"]
+    },
+    "education": {
+      "name": "Education",
+      "keywords": ["education", "school", "university", "college", "student loan"],
+      "related_keywords": ["charter school", "public education", "teacher", "tuition"]
+    },
+    "transportation": {
+      "name": "Transportation",
+      "keywords": ["transportation", "automotive", "airline", "railroad", "shipping", "tesla", "ford", "gm"],
+      "related_keywords": ["infrastructure", "highway", "electric vehicle", "emissions"]
+    },
+    "manufacturing": {
+      "name": "Manufacturing",
+      "keywords": ["manufacturing", "industrial", "factory", "production"],
+      "related_keywords": ["jobs", "trade", "tariff", "nafta"]
+    },
+    "retail": {
+      "name": "Retail & Services",
+      "keywords": ["retail", "walmart", "target", "shopping", "consumer"],
+      "related_keywords": ["minimum wage", "labor", "workers"]
+    },
+    "media": {
+      "name": "Media & Entertainment",
+      "keywords": ["media", "entertainment", "hollywood", "news", "television", "streaming"],
+      "related_keywords": ["copyright", "intellectual property", "journalism"]
+    },
+    "tobacco": {
+      "name": "Tobacco & Alcohol",
+      "keywords": ["tobacco", "cigarette", "alcohol", "beer", "wine", "spirits"],
+      "related_keywords": ["vaping", "smoking", "regulation"]
+    },
+    "gambling": {
+      "name": "Gambling & Gaming",
+      "keywords": ["gambling", "casino", "gaming", "lottery", "sports betting"],
+      "related_keywords": ["online gambling", "regulation"]
+    },
+    "labor": {
+      "name": "Labor Unions",
+      "keywords": ["union", "labor union", "afl-cio", "teamsters", "uaw", "seiu"],
+      "related_keywords": ["collective bargaining", "workers rights", "organizing"]
+    },
+    "environment": {
+      "name": "Environmental Groups",
+      "keywords": ["environmental", "sierra club", "conservation", "wildlife", "clean energy"],
+      "related_keywords": ["climate change", "renewable", "pollution", "epa"]
+    },
+    "gun_rights": {
+      "name": "Gun Rights",
+      "keywords": ["nra", "gun rights", "second amendment", "firearms"],
+      "related_keywords": ["gun control", "background check"]
+    },
+    "gun_control": {
+      "name": "Gun Control",
+      "keywords": ["gun control", "gun safety", "everytown", "brady campaign"],
+      "related_keywords": ["assault weapon", "background check"]
+    },
+    "legal": {
+      "name": "Lawyers & Legal Services",
+      "keywords": ["lawyer", "attorney", "legal", "law firm", "litigation"],
+      "related_keywords": ["tort reform", "liability", "class action"]
+    },
+    "crypto": {
+      "name": "Cryptocurrency & Blockchain",
+      "keywords": ["crypto", "cryptocurrency", "bitcoin", "blockchain", "coinbase"],
+      "related_keywords": ["regulation", "sec", "digital assets"]
+    }
+  },
+  "bill_categories": {
+    "healthcare": {
+      "name": "Healthcare & Medical",
+      "keywords": ["healthcare", "health", "medical", "medicare", "medicaid", "insurance", "hospital", "prescription", "drug pricing", "affordable care"]
+    },
+    "economy": {
+      "name": "Economy & Taxation",
+      "keywords": ["tax", "economy", "economic", "budget", "fiscal", "revenue", "irs", "income tax", "corporate tax"]
+    },
+    "education": {
+      "name": "Education",
+      "keywords": ["education", "school", "student", "college", "university", "teacher", "pell grant", "student loan"]
+    },
+    "environment": {
+      "name": "Environment & Climate",
+      "keywords": ["environment", "climate", "clean air", "clean water", "epa", "pollution", "renewable energy", "carbon", "emissions"]
+    },
+    "defense": {
+      "name": "Defense & Military",
+      "keywords": ["defense", "military", "pentagon", "armed forces", "veteran", "national security", "war"]
+    },
+    "immigration": {
+      "name": "Immigration",
+      "keywords": ["immigration", "border", "visa", "asylum", "refugee", "citizenship", "daca", "deportation"]
+    },
+    "infrastructure": {
+      "name": "Infrastructure",
+      "keywords": ["infrastructure", "highway", "bridge", "transportation", "broadband", "water", "construction"]
+    },
+    "justice": {
+      "name": "Criminal Justice",
+      "keywords": ["criminal justice", "prison", "sentencing", "police", "law enforcement", "court", "judicial"]
+    },
+    "civil_rights": {
+      "name": "Civil Rights & Liberties",
+      "keywords": ["civil rights", "voting rights", "discrimination", "equality", "privacy", "freedom"]
+    },
+    "labor": {
+      "name": "Labor & Employment",
+      "keywords": ["labor", "employment", "worker", "minimum wage", "overtime", "union", "workplace", "osha"]
+    },
+    "trade": {
+      "name": "Trade & Commerce",
+      "keywords": ["trade", "tariff", "export", "import", "nafta", "usmca", "commerce"]
+    },
+    "energy": {
+      "name": "Energy",
+      "keywords": ["energy", "oil", "gas", "coal", "nuclear", "renewable", "solar", "wind", "pipeline"]
+    },
+    "agriculture": {
+      "name": "Agriculture & Food",
+      "keywords": ["agriculture", "farm", "crop", "food safety", "usda", "rural", "livestock"]
+    },
+    "housing": {
+      "name": "Housing",
+      "keywords": ["housing", "mortgage", "rent", "affordable housing", "homelessness", "hud"]
+    },
+    "technology": {
+      "name": "Technology & Communications",
+      "keywords": ["technology", "internet", "broadband", "cybersecurity", "data privacy", "telecom", "fcc"]
+    },
+    "gun_policy": {
+      "name": "Gun Policy",
+      "keywords": ["gun", "firearm", "second amendment", "background check", "assault weapon", "gun violence"]
+    },
+    "abortion": {
+      "name": "Abortion & Reproductive Rights",
+      "keywords": ["abortion", "reproductive", "roe v wade", "planned parenthood", "contraception"]
+    },
+    "social_security": {
+      "name": "Social Security & Retirement",
+      "keywords": ["social security", "retirement", "pension", "elderly", "senior"]
+    }
+  }
+}

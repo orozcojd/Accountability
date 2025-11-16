@@ -21,12 +21,15 @@ class Donor(BaseModel):
     amount: float
     type: str  # "PAC", "Individual", etc.
     industry: Optional[str] = None
+    industry_category: Optional[str] = None  # Categorized industry for analysis
+    donation_date: Optional[str] = None  # Date of donation if available
 
 
 class Industry(BaseModel):
     """Industry contribution summary."""
     industry: str
     amount: float
+    category: Optional[str] = None  # Standardized category
 
 
 class DonationData(BaseModel):

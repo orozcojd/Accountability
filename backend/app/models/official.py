@@ -59,6 +59,9 @@ class Metadata(BaseModel):
     createdAt: datetime
     lastScraped: datetime
     dataVersion: str = "1.0.0"
+    accountabilityScore: Optional[float] = None
+    influenceScore: Optional[float] = None
+    promiseKeepingScore: Optional[float] = None
 
 
 class Official(BaseModel):

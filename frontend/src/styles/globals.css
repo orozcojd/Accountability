@@ -2,13 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:wght@400;700;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
 /* Custom CSS Variables for additional design tokens */
 :root {
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-  --focus-ring: 0 0 0 3px rgba(13, 115, 119, 0.3);
-  --transition-base: all 0.2s ease;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 8px 16px rgba(0, 0, 0, 0.15);
+  --focus-ring: 0 0 0 3px rgba(13, 115, 119, 0.4);
+  --focus-ring-error: 0 0 0 3px rgba(220, 38, 38, 0.4);
+  --transition-base: all 0.15s ease;
+  --transition-slow: all 0.3s ease;
+
+  /* Color tokens for meaning */
+  --color-broken: #DC2626;
+  --color-kept: #16A34A;
+  --color-warning: #F59E0B;
+  --color-neutral: #6B7280;
 }
 
 /* Base Layer Customizations */
@@ -55,22 +67,23 @@
 
 /* Component Layer Customizations */
 @layer components {
-  /* Button Base Styles */
+  /* Button Base Styles - Bolder, sharper */
   .btn {
-    @apply inline-flex items-center justify-center px-4 py-2 rounded-md font-medium;
-    @apply transition-all duration-200 ease-in-out;
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-md font-semibold;
+    @apply transition-all duration-150 ease-in-out;
     @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
     @apply disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply text-body;
   }
 
   .btn-primary {
     @apply bg-primary text-white hover:bg-primary-hover;
-    @apply focus:ring-primary;
+    @apply focus:ring-primary shadow-sm hover:shadow-md;
   }
 
   .btn-secondary {
     @apply bg-secondary text-white hover:bg-secondary-hover;
-    @apply focus:ring-secondary;
+    @apply focus:ring-secondary shadow-sm hover:shadow-md;
   }
 
   .btn-outline {
@@ -78,9 +91,24 @@
     @apply focus:ring-primary;
   }
 
-  /* Card Styles */
+  .btn-danger {
+    @apply bg-broken-promise text-white hover:bg-broken-promise-dark;
+    @apply focus:ring-broken-promise shadow-sm hover:shadow-md;
+  }
+
+  /* Card Styles - Sharper edges, less padding */
   .card {
-    @apply bg-white rounded-lg border border-light-gray p-lg;
+    @apply bg-white rounded-md border border-light-gray p-lg;
+    @apply shadow-sm hover:shadow-md transition-shadow duration-200;
+  }
+
+  .card-sharp {
+    @apply bg-white border border-light-gray p-lg;
+    @apply shadow-sm hover:shadow-md transition-shadow duration-200;
+  }
+
+  .card-dense {
+    @apply bg-white rounded-md border border-light-gray p-md;
     @apply shadow-sm hover:shadow-md transition-shadow duration-200;
   }
 
@@ -93,7 +121,71 @@
 
   /* Loading Skeleton */
   .skeleton {
-    @apply animate-pulse bg-light-gray rounded;
+    @apply animate-pulse bg-light-gray rounded-md;
+  }
+
+  /* Investigative journalism styles */
+  .section-divider {
+    @apply border-t-2 border-text-black my-xl;
+  }
+
+  .section-divider-light {
+    @apply border-t border-light-gray my-lg;
+  }
+
+  /* Status indicators */
+  .status-broken {
+    @apply text-broken-promise font-bold;
+  }
+
+  .status-kept {
+    @apply text-kept-promise font-semibold;
+  }
+
+  .status-warning {
+    @apply text-warning font-semibold;
+  }
+
+  /* Badge styles for accountability */
+  .badge-broken {
+    @apply inline-flex items-center px-2 py-1 rounded-sm text-caption font-bold;
+    @apply bg-broken-promise-light text-broken-promise-dark border border-broken-promise;
+  }
+
+  .badge-kept {
+    @apply inline-flex items-center px-2 py-1 rounded-sm text-caption font-bold;
+    @apply bg-kept-promise-light text-kept-promise-dark border border-kept-promise;
+  }
+
+  .badge-warning {
+    @apply inline-flex items-center px-2 py-1 rounded-sm text-caption font-bold;
+    @apply bg-warning-light text-warning-dark border border-warning;
+  }
+
+  /* Newspaper-style layouts */
+  .newspaper-column {
+    column-count: 2;
+    column-gap: 2rem;
+    column-rule: 1px solid theme('colors.light-gray');
+  }
+
+  @media (max-width: 768px) {
+    .newspaper-column {
+      column-count: 1;
+    }
+  }
+
+  /* Data emphasis */
+  .data-number {
+    @apply font-mono font-bold tracking-tight;
+  }
+
+  .data-huge {
+    @apply font-mono text-data-huge font-extrabold tracking-tighter;
+  }
+
+  .data-large {
+    @apply font-mono text-data-large font-bold tracking-tight;
   }
 
   /* Screen reader only content */
